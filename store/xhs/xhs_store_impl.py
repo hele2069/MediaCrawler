@@ -8,14 +8,14 @@ import json
 import os
 import pathlib
 from typing import Dict
-
 import aiofiles
 from tortoise.contrib.pydantic import pydantic_model_creator
+from datetime import datetime
 
 from base.base_crawler import AbstractStore
 from tools import utils
 from var import crawler_type_var
-
+from config.base_config import KEYWORDS
 
 class XhsCsvStoreImplement(AbstractStore):
     csv_store_path: str = "data/xhs"
@@ -29,7 +29,9 @@ class XhsCsvStoreImplement(AbstractStore):
         Returns: eg: data/xhs/search_comments_20240114.csv ...
 
         """
-        return f"{self.csv_store_path}/{crawler_type_var.get()}_{store_type}_{utils.get_current_date()}.csv"
+        # current_date_time = datetime.now().strftime("%Y-%m-%d %H:%M")
+        return f"{self.csv_store_path}/{KEYWORDS}_{crawler_type_var.get()}_{store_type}.csv"
+        # return f"{self.csv_store_path}/{crawler_type_var.get()}_{store_type}_{utils.get_current_date()}.csv"
 
     async def save_data_to_csv(self, save_item: Dict, store_type: str):
         """
